@@ -9,10 +9,30 @@ import java.util.Scanner;
 public class MoneyCalculator {
 
     public static void main(String[] args) throws Exception {
+        MoneyCalculator moneyCalculator = new MoneyCalculator();
+        moneyCalculator.execute();
+    }
+    
+    private double amount;
+    private double exchangeRate;
+
+    private void execute() throws Exception {
+        input();
+        process();
+        output();
+    }
+
+    private void input() {
         System.out.println("Introduzca una cantidad de dolares");
         Scanner scanner = new Scanner(System.in);
-        double amount = Double.parseDouble(scanner.next());
-        double exchangeRate = getExchangeRate("USD", "EUR");
+        amount = Double.parseDouble(scanner.next());
+    }
+
+    private void process() throws Exception {
+        exchangeRate = getExchangeRate("USD", "EUR");
+    }
+
+    private void output() {
         System.out.println(amount + " USD equivalen a " + amount * exchangeRate + "EUR");
     }
 
