@@ -1,16 +1,11 @@
 package moneycalculator;
 
-import model.Currency;
-import model.Money;
-import model.ExchangeRate;
-
+import model.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 public class MoneyCalculator {
@@ -19,14 +14,14 @@ public class MoneyCalculator {
         MoneyCalculator moneyCalculator = new MoneyCalculator();
         moneyCalculator.execute();
     }
-    private Map<String, Currency> currencies = new HashMap<>();
+    
+    private final CurrencyList currencyList;
     private Money money;
     private Currency currencyTo;
     private ExchangeRate exchangeRate;
 
     public MoneyCalculator() {
-        currencies.put("USD", new Currency("USD", "Dolar americano", "$"));
-        currencies.put("EUR", new Currency("EUR", "Euro", "€"));
+        this.currencyList = new CurrencyList();
     }
 
     private void execute() throws Exception {
@@ -40,13 +35,25 @@ public class MoneyCalculator {
         Scanner scanner = new Scanner(System.in);
         double amount = Double.parseDouble(scanner.next());
 
-        System.out.println("Introduzca codigo divisa origen");
-        Currency currency = currencies.get(scanner.next().toUpperCase());
+        while (true) {
+            System.out.println("Introduzca código divisa origen");
+            Currency currency = currencyList.get(scanner.next().toUpperCase());
+            
+            if (currency != null) {
+                money = new Money(amount, currency);
+                break;
+            }
+            System.out.println("Divisa no conocida");
+        }
 
-        money = new Money(amount, currency);
-
-        System.out.println("Introduzca codigo divisa destino");
-        currencyTo = currencies.get(scanner.next().toUpperCase());
+        while (true) {
+            System.out.println("Introduzca codigo divisa destino");
+            currencyTo = currencyList.get(scanner.next().toUpperCase());
+            if (currencyTo != null) {
+                break;
+            }
+            System.out.println("Divisa no conocida");
+        }
     }
 
     private void process() throws Exception {
