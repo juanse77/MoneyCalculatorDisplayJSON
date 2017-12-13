@@ -12,9 +12,11 @@ public class MoneyCalculator {
         MoneyCalculator moneyCalculator = new MoneyCalculator();
         moneyCalculator.execute();
     }
+    
     private double amount;
     private double exchangeRate;
     private String currencyFrom;
+    private String currencyTo;
 
     private void execute() throws Exception {
         input();
@@ -27,19 +29,23 @@ public class MoneyCalculator {
         Scanner scanner = new Scanner(System.in);
         amount = Double.parseDouble(scanner.next());
 
-        System.out.println("Introduzca divisa inicial");
-        currencyFrom = scanner.next();
+        System.out.println("Introduzca divisa origen");
+        currencyFrom = scanner.next().toUpperCase();
+
+        System.out.println("Introduzca divisa destino");
+        currencyTo = scanner.next().toUpperCase();
     }
 
     private void process() throws Exception {
-        exchangeRate = getExchangeRate(currencyFrom, "EUR");
+        exchangeRate = getExchangeRate(currencyFrom, currencyTo);
     }
 
     private void output() {
-        System.out.println(amount + " " + currencyFrom.toUpperCase() + " equivalen a " + amount * exchangeRate + " EUR");
+        System.out.println(amount + " " + currencyFrom + "equivalen a " + amount * exchangeRate + " " + currencyTo);
     }
 
     private static double getExchangeRate(String from, String to) throws Exception {
+        System.out.println(from + " " + to);
         URL url = new URL("http://api.fixer.io/latest?base=" + from + "&symbols=" + to);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
