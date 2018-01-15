@@ -2,6 +2,7 @@ package model;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class CurrencyList {
 
@@ -18,5 +19,9 @@ public class CurrencyList {
 
     public Currency get(String code) {
         return currencies.get(code.toUpperCase());
+    }
+    
+    public Map<String, Currency> getCurrencyList(){
+        return currencies;
     }
 }
