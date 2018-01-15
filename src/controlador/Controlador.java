@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.Date;
 import model.Currency;
 import model.ExchangeRate;
@@ -39,7 +40,9 @@ public class Controlador {
     }
     
     private void output(){
-        vista.setTextResultado(dinero.getAmount() * exchangeRate.getRate() + to.getSymbol());
+        DecimalFormat df = new DecimalFormat("#.00");
+        double resultado = dinero.getAmount() * exchangeRate.getRate();
+        vista.setTextResultado(df.format(resultado) + to.getSymbol());
     }
 
     private ExchangeRate getExchangeRate(Currency from, Currency to) throws Exception {

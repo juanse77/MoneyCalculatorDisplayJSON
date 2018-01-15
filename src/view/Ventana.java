@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.Map;
 import javax.swing.JButton;
@@ -92,7 +93,8 @@ public final class Ventana extends JFrame {
                     Currency to = currencies.get(codMonedas[cbTo.getSelectedIndex()]);
 
                     if (from.getCode().equals(to.getCode())) {
-                        textResultado.setText(Double.parseDouble(textCantidad.getText()) + to.getSymbol());
+                        DecimalFormat df = new DecimalFormat("#.00");
+                        textResultado.setText(df.format(Double.parseDouble(textCantidad.getText())) + to.getSymbol());
                     } else {
                         Money dinero = new Money(Double.parseDouble(textCantidad.getText()), from);
                         control.execute(dinero, from, to);
@@ -108,7 +110,7 @@ public final class Ventana extends JFrame {
                     JPanel auxPanel = new JPanel();
                     JLabel lbError = new JLabel("Introduzca una cantidad válida");
                     auxPanel.add(lbError, BorderLayout.CENTER);
-
+                    
                     error.getContentPane().add(auxPanel);
                     error.setLocationRelativeTo(null);
                     error.pack();
