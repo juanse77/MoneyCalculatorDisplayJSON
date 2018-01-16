@@ -1,5 +1,6 @@
 package controlador;
 
+import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -50,10 +51,12 @@ public class Controlador {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         InputStreamReader input = new InputStreamReader(connection.getInputStream());
+        
         try (BufferedReader reader = new BufferedReader(input)) {
-            String line = reader.readLine();
-            line = line.substring(line.indexOf(to.getCode()) + 5, line.indexOf("}"));
-            return new ExchangeRate(new Date(), from, to, Double.parseDouble(line));
+        
+            RatioConversion ratio = new Gson().fromJson(reader.readLine(), RatioConversion.class);
+            return new ExchangeRate(new Date(), from, to, ratio.getRatio(to.getCode()));
+        
         }
     }
 }
